@@ -3,7 +3,7 @@ import os
 
 from aiogram import Bot, Dispatcher, executor, types
 from dotenv import load_dotenv
-from p import parce
+from parce import parce
 
 logging.basicConfig(level=logging.INFO)
 
