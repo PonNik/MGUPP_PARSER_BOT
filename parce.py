@@ -11,11 +11,11 @@ load_dotenv()
 LOGIN_URL = os.getenv('LOGIN_URL')
 CABINET_URL = os.getenv('CABINET_URL')
 
-LOGIN = os.getenv('LOGIN')
-PASSWORD = os.getenv('PASSWORD')
+LOGIN = os.getenv('LOGIN1')
+PASSWORD = os.getenv('PASSWORD1')
 
 
-async def auth(driver: webdriver.ChromiumEdge, login, password):
+def auth(driver: webdriver.ChromiumEdge, login, password):
     # Заполняем форму логина и пароля
     login_input = driver.find_element(by=By.NAME, value='USER_LOGIN')
     login_input.send_keys(login)
@@ -28,13 +28,15 @@ async def auth(driver: webdriver.ChromiumEdge, login, password):
 
 async def parce_site():
     options = webdriver.EdgeOptions()
-    options.add_argument('--headless')
+    #options.add_argument('--headless')
 
     # Инициализируем драйвер браузера
     driver = webdriver.ChromiumEdge(options=options)
 
     # Переходим на страницу авторизации
     driver.get(LOGIN_URL)
+    
+    # В дальнейшем здась будет код для выбора пользователя, для авторизации, на его данных
 
     auth(driver, LOGIN, PASSWORD)
 
@@ -42,23 +44,26 @@ async def parce_site():
     driver.get(CABINET_URL)
 
     try:
-        all_data = WebDriverWait(driver, 10).until(lambda x: x.find_element(By.CLASS_NAME, 'cd-schedule__events'))
+        content = WebDriverWait(driver, 10).until(lambda x: x.find_element(By.CLASS_NAME, 'cd-schedule__events'))
         print("Page is ready!")
 
         
-        all_data_html = all_data.get_attribute('innerHTML')
-        soup = bs(all_data_html, "html.parser")
+        content_html = content.get_attribute('innerHTML')
+        soup = bs(content_html, "html.parser")
         
-        #less = []
+        less = []
         itog = []
         days = soup.find_all('li')
 
         for day in days:
             text = {}
             try:
+                # get named days
                 day_text = day.find('div', 'cd-schedule__top-info _dayWeek top-info-fon').find('span').text
+                # get lessons in column
                 lessons = day.find_all('li', 'cd-schedule__event')
             except:
+                # get lessons in column if this second column (untitled)
                 lessons.extend(day.find_all('li', 'cd-schedule__event'))
 
             for lesson in lessons:
