@@ -34,9 +34,9 @@ async def echo(message: types.Message):
     for i in data:
         if message.text == i['day']:
             for textmessage in i['lessons']:
-                if '2  П.Гр.' in textmessage:
+                if '1  П.Гр.' in textmessage:
                     itog += textmessage
-                elif '1  П.Гр.' not in  textmessage:
+                elif '2  П.Гр.' not in  textmessage:
                     itog += textmessage
     await message.answer(itog)
 

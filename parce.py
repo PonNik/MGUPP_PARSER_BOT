@@ -4,15 +4,15 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 from bs4 import BeautifulSoup as bs
 import os
-#from dotenv import load_dotenv
+from dotenv import load_dotenv
 
 
-#load_dotenv()
+load_dotenv()
 LOGIN_URL = os.getenv('LOGIN_URL')
 CABINET_URL = os.getenv('CABINET_URL')
 
-LOGIN = os.getenv('LOGIN')
-PASSWORD = os.getenv('PASSWORD')
+LOGIN = os.getenv('LOGIN1')
+PASSWORD = os.getenv('PASSWORD1')
 
 
 def auth(driver: webdriver.ChromiumEdge, login, password):
@@ -28,7 +28,7 @@ def auth(driver: webdriver.ChromiumEdge, login, password):
 
 async def parce_site():
     options = webdriver.EdgeOptions()
-    options.add_argument('--headless')
+    #options.add_argument('--headless')
 
     # Инициализируем драйвер браузера
     driver = webdriver.ChromiumEdge(options=options)
