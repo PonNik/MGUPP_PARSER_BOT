@@ -5,7 +5,6 @@ import asyncio
 from aiogram import Bot, Dispatcher
 from aiogram.filters import Command
 from dotenv import load_dotenv
-from parce import parce
 
 from core.handlers.basic import start_command
 from core.utils.commands import set_commands
