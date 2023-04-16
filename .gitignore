@@ -1,8 +1,6 @@
 /.env
 /env
-*/__pycache__
-
+/__pycache__
+__pycache__/
 *.json
 *.html
-
-__pycache__/
