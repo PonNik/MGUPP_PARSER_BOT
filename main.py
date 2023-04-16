@@ -1,54 +1,31 @@
 import logging
 import os
+import asyncio
 
-from aiogram import Bot, Dispatcher, executor, types
+from aiogram import Bot, Dispatcher
+from aiogram.filters import Command
 from dotenv import load_dotenv
-from parce import parce_site
+from parce import parce
 
-logging.basicConfig(level=logging.INFO)
+from core.handlers.basic import start_command
+from core.utils.commands import set_commands
 
-data = []
-
-async def send_welcome(message: types.Message):
-    global data
-    kb = [
-        [types.InlineKeyboardButton(text="Понедельник"), types.InlineKeyboardButton(text="Вторник")],
-        [types.InlineKeyboardButton(text="Среда"), types.InlineKeyboardButton(text="Четверг")],
-        [types.InlineKeyboardButton(text="Пятница"), types.InlineKeyboardButton(text="Суббота")]
-    ]
-    try:
-        await message.reply('Ща бля, Заебал')
-        if data == []:
-            data = await parce_site()
-        await message.reply('Э, какой день интересует?', reply_markup=types.ReplyKeyboardMarkup(
-            keyboard=kb,
-            resize_keyboard=True,
-            one_time_keyboard=True,
-            input_field_placeholder="День выбирай: "
-        ))
-    except:
-        await message.reply('Технические шоколадки, еблан иди проспись')
-
-async def echo(message: types.Message):
-    itog = ''
-    for i in data:
-        if message.text == i['day']:
-            for textmessage in i['lessons']:
-                if '1  П.Гр.' in textmessage:
-                    itog += textmessage
-                elif '2  П.Гр.' not in  textmessage:
-                    itog += textmessage
-    await message.answer(itog)
-
-def register_handlers(dp: Dispatcher):
-    dp.register_message_handler(send_welcome, commands=["start"])
-    dp.register_message_handler(echo, lambda message: message.text)
-
-if __name__ == '__main__':
+async def main():
+    logging.basicConfig(level=logging.INFO, 
+                        format='%(asctime)s - [%(levelname)s] - %(name)s - '
+                        '(%(filename)s).%(funcName)s(%(lineno)d) - %(message)s')
     load_dotenv()
     bot = Bot(token=os.getenv('TOKEN'))
-    dp = Dispatcher(bot)
+    dp = Dispatcher()
 
-    register_handlers(dp)
-    
-    executor.start_polling(dp, skip_updates=True)
+    await set_commands(bot)
+
+    dp.message.register(start_command, Command(commands=['start']))
+
+    try: 
+        await dp.start_polling(bot)
+    finally:
+        bot.session.close()
+
+if __name__ == '__main__':
+    asyncio.run(main())
