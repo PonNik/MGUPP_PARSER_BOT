@@ -3,11 +3,10 @@ import os
 import asyncio
 
 from aiogram import Bot, Dispatcher
-from aiogram.filters import Command
 from dotenv import load_dotenv
 
-from core.handlers.basic import start_command
 from core.utils.commands import set_commands
+from core.handlers.register import register_handler
 
 async def main():
     logging.basicConfig(level=logging.INFO, 
@@ -18,8 +17,7 @@ async def main():
     dp = Dispatcher()
 
     await set_commands(bot)
-
-    dp.message.register(start_command, Command(commands=['start']))
+    await register_handler(dp)
 
     try: 
         await dp.start_polling(bot)

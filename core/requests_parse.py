@@ -102,6 +102,7 @@ def get_Raspisanie_Kalendar(session: Session, group_guids):
                     'data-end': data.get('data-end'),
                     '_auditoria': data.get('_auditoria'),
                     'data-type': data.get('data-type'),
+                    '_dateoflesson': data.get('_dateoflesson'),
                              })
             days_list.append({'day': day.text.strip(), 'data_lessons': itog})
         else:
@@ -115,6 +116,7 @@ def get_Raspisanie_Kalendar(session: Session, group_guids):
                     'data-end': data.get('data-end'),
                     '_auditoria': data.get('_auditoria'),
                     'data-type': data.get('data-type'),
+                    '_dateoflesson': data.get('_dateoflesson'),
                             })
             days_list[-1]['data_lessons'] += itog
 
