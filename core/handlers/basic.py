@@ -18,6 +18,8 @@ async def start_command(message: Message , bot: Bot):
     except:
         await message.answer('Технические шоколадки')
     
+
+    
 async def change_day(message: Message, bot: Bot):
     for day in data:
         if day['day'].lower() == message.text.lower():
