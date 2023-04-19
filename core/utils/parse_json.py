@@ -9,6 +9,7 @@ async def parse_Lessons(day):
             data_end= itr['data-end']
             audit = itr['_auditoria']
             data_type = itr['data-type']
-            msg = f"({data_start}-{data_end})\n{name} {data_type}\n{audit}"
+            preplistdata = itr['preplistdata']
+            msg = f"({data_start}-{data_end})\n{name} {data_type}\n{audit}\n{preplistdata}"
             itog.append(msg)
     return itog

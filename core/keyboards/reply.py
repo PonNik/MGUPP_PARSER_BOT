@@ -9,7 +9,6 @@ def make_kb_week(data):
     keyboard = ReplyKeyboardMarkup(
         keyboard=kb,
         resize_keyboard=True,
-        one_time_keyboard=True,
         input_field_placeholder="Выберите день: "
     )
     return keyboard
